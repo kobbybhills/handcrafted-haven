@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 :root {
@@ -12,8 +13,8 @@
   --foreground: var(--haven-dark-green);
 }
 
-@theme inline {
-  /* This maps my variables so I can use 'bg-haven-green' in my HTML */
+/* This maps my variables so I can use 'bg-haven-green' in my HTML */
+:root {
   --color-haven-green: var(--haven-green);
   --color-haven-terracotta: var(--haven-terracotta);
   --color-haven-cream: var(--haven-cream);
