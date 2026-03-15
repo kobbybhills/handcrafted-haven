@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+  /* Handcrafted Haven Brand Colors */
+  --haven-green: #2D5A27;
+  --haven-terracotta: #CC7351;
+  --haven-cream: #F9F7F2;
+  --haven-dark-green: #1B3A1B;
+
+  /* Default Page Styling */
+  --background: var(--haven-cream);
+  --foreground: var(--haven-dark-green);
+}
+
+@theme inline {
+  /* This maps my variables so I can use 'bg-haven-green' in my HTML */
+  --color-haven-green: var(--haven-green);
+  --color-haven-terracotta: var(--haven-terracotta);
+  --color-haven-cream: var(--haven-cream);
+  --color-haven-dark-green: var(--haven-dark-green);
+
+  /* Keep these for standard Next.js fonts */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Applying the theme to the entire site */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
