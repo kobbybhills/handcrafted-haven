@@ -1,0 +1,30 @@
+import { products } from "@/lib/data";
+import ProductCard from "@/app/ui/product-card";
+
+export default function CategoryPage({ params }) {
+  const category = params.category;
+
+  // filter products by category
+  const filteredProducts = products.filter(
+    (product) => product.category === category,
+  );
+
+  return (
+    <div className="p-10">
+      <h1 className="text-3xl font-bold capitalize mb-8">
+        {category} Products
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {filteredProducts.map((product) => (
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            price={product.price}
+            image={product.image}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
