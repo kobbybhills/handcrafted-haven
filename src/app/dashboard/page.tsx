@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image"; // Added for optimization
+import { toast } from "react-hot-toast"; // Added for notifications
 import AddProductForm from "../../components/AddProductForm";
 import {
   ResponsiveContainer,
@@ -146,12 +148,26 @@ export default function Dashboard() {
   );
 
   const handleDelete = async (productId: string) => {
-    if (!confirm("Are you sure you want to remove this craft?")) return;
+    // Keep standard confirm for safety, but use Toast for the result
+    if (!confirm("Are you sure you want to remove this craft from the workshop?")) return;
+    
     setDeletingId(productId);
     try {
       const res = await fetch(`/api/products/${productId}`, { method: "DELETE" });
       if (res.ok) {
         setProducts((prev) => prev.filter((p) => p._id !== productId));
+        toast.success("Craft removed from inventory", {
+          style: {
+            borderRadius: '1rem',
+            background: '#1c1917',
+            color: '#fff',
+            fontWeight: '900',
+            fontSize: '11px',
+            textTransform: 'uppercase',
+          }
+        });
+      } else {
+        toast.error("Could not remove item");
       }
     } finally {
       setDeletingId(null);
@@ -161,6 +177,7 @@ export default function Dashboard() {
   const handleEditClick = (product: Product) => {
     setEditingProduct(product);
     setActiveTab("my-products");
+    toast("Editing mode enabled", { icon: '✏️' });
   };
 
   if (status === "loading" || (status === "authenticated" && userRole !== "seller")) {
@@ -276,7 +293,14 @@ export default function Dashboard() {
                   {filteredProducts.map((product) => (
                     <div key={product._id} className="flex items-center justify-between p-4 hover:bg-gray-50 rounded-3xl transition-all">
                       <div className="flex items-center gap-5">
-                        <img src={product.image} className="w-16 h-16 object-cover rounded-2xl shadow-sm" alt="" />
+                        <div className="relative w-16 h-16 shrink-0 overflow-hidden rounded-2xl shadow-sm">
+                           <Image 
+                             src={product.image} 
+                             alt={product.name}
+                             fill
+                             className="object-cover"
+                           />
+                        </div>
                         <div>
                           <p className="font-black text-gray-900">{product.name}</p>
                           <div className="flex items-center gap-3 mt-1">
@@ -310,14 +334,20 @@ export default function Dashboard() {
                   orders.map((order) => (
                     <div key={order._id} className="flex items-center justify-between p-6 bg-gray-50 rounded-3xl border border-gray-100 hover:border-amber-200 transition-all">
                       <div className="flex items-center gap-6">
-                        <img src={order.product?.image || "/placeholder.png"} className="w-16 h-16 object-cover rounded-2xl border-2 border-white shadow-sm" alt="" />
+                        <div className="relative w-16 h-16 shrink-0 overflow-hidden rounded-2xl border-2 border-white shadow-sm">
+                           <Image 
+                             src={order.product?.image || "/placeholder.png"} 
+                             alt="Order"
+                             fill
+                             className="object-cover"
+                           />
+                        </div>
                         <div>
                           <p className="font-black text-gray-900">{order.product?.name || "Artisan Item"}</p>
                           <p className="text-xs text-gray-400 font-bold">Buyer: {order.customer?.name || "Guest User"}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        {/* SAFE TOFIXED CALL HERE */}
                         <p className="font-black text-gray-900 text-lg">
                           ${(order?.total ?? 0).toFixed(2)}
                         </p>
