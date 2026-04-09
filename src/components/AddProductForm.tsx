@@ -102,7 +102,7 @@ export default function AddProductForm({ initialData, onSuccess }: AddProductFor
       {/* --- Image Preview Section --- */}
       <div className="space-y-2">
         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Visual Preview</label>
-        <div className="w-full h-56 border-2 border-dashed border-gray-100 rounded-[2rem] overflow-hidden flex items-center justify-center bg-[#fafaf9] transition-all duration-500 hover:border-amber-200">
+        <div className="w-full h-56 border-2 border-dashed border-gray-100 rounded-4xl overflow-hidden flex items-center justify-center bg-[#fafaf9] transition-all duration-500 hover:border-amber-200">
           {imgPreview ? (
             <div className="relative w-full h-full group">
               <Image 
@@ -188,7 +188,7 @@ export default function AddProductForm({ initialData, onSuccess }: AddProductFor
       <button 
         type="submit" 
         disabled={loading}
-        className="w-full bg-gray-900 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-amber-600 disabled:bg-gray-200 transition-all active:scale-95 shadow-lg shadow-gray-200"
+        className="w-full bg-gray-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-amber-600 disabled:bg-gray-200 transition-all active:scale-95 shadow-lg shadow-gray-200"
       >
         {loading ? "Syncing with Vault..." : initialData ? "Confirm Changes" : "Forge New Listing"}
       </button>
