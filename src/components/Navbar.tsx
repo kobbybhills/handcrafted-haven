@@ -19,6 +19,7 @@ export default function Navbar() {
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
+            {/* <Link href="/dashboard" className="text-gray-700 hover:text-amber-700">Home</Link> */}
             <Link href="/shop" className="text-gray-700 hover:text-amber-700">Shop</Link>
             <Link href="/categories" className="text-gray-700 hover:text-amber-700">Categories</Link>
             <Link href="/about" className="text-gray-700 hover:text-amber-700">About</Link>

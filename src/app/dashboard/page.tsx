@@ -104,41 +104,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#fafaf9]">
-      
-      {/* FIXED SIDEBAR */}
-      <aside className="w-72 bg-white border-r border-gray-100 p-10 hidden md:flex flex-col shrink-0 h-full">
-        <div className="mb-14">
-          <h2 className="text-xl font-black text-amber-950 uppercase tracking-tighter">Handcrafted</h2>
-        </div>
-        
-        <nav className="space-y-3 flex-1 overflow-y-auto">
-          {[
-            { id: "overview", label: "Dashboard", icon: "📊" },
-            { id: "my-products", label: "Inventory", icon: "🎨" },
-            { id: "orders", label: "Orders", icon: "📦" },
-            { id: "reviews", label: "Feedback", icon: "⭐" },
-            { id: "settings", label: "Settings", icon: "⚙️" },
-          ].map((tab) => (
-            <button 
-              key={tab.id} 
-              onClick={() => setActiveTab(tab.id)} 
-              className={`w-full flex items-center gap-5 px-6 py-4 rounded-2xl font-black transition-all duration-300 ${
-                activeTab === tab.id 
-                ? "bg-amber-600 text-white shadow-xl shadow-amber-200 translate-x-2" 
-                : "text-gray-400 hover:bg-amber-50 hover:text-amber-800"
-              }`}
-            >
-              <span className="text-xl">{tab.icon}</span> {tab.label}
-            </button>
-          ))}
-        </nav>
-
-        <div className="mt-auto pt-6 border-t border-gray-50">
-          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Artisan Profile</p>
-          <p className="font-black text-gray-900">{session?.user?.name || "Douglas"}</p>
-        </div>
-      </aside>
+    <div className="max-w-6xl mx-auto">
+   
 
       {/* MAIN CONTENT AREA - INDEPENDENT SCROLL */}
       <main className="flex-1 p-10 lg:p-16 overflow-y-auto h-full scroll-smooth">
