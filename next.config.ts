@@ -17,11 +17,26 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'th.bing.com', // Added to fix the Bing image error
+        hostname: 'th.bing.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.co',
         port: '',
         pathname: '/**',
       },
     ],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  // If the 'experimental' block caused the error, let's keep it simple:
+  experimental: {
+    serverActions: {
+       bodySizeLimit: '2mb',
+    },
   },
 };
 

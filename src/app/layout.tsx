@@ -1,4 +1,5 @@
 /*eslint-disable*/
+import { SessionProvider } from "next-auth/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
