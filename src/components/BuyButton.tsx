@@ -1,7 +1,8 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast"; // Added for premium notifications
+import { toast } from "react-hot-toast"; // Premium notifications
 
 interface BuyButtonProps {
   productId: string;
@@ -22,7 +23,7 @@ export default function BuyButton({ productId, price }: BuyButtonProps) {
       });
 
       if (res.ok) {
-        // --- Premium Custom Toast ---
+        // --- Premium Custom Success Toast ---
         toast.success("Creation secured! Your order is placed.", {
           duration: 4000,
           style: {
@@ -42,7 +43,7 @@ export default function BuyButton({ productId, price }: BuyButtonProps) {
           },
         });
         
-        // Brief delay so they see the success toast before the redirect
+        // Brief delay so the user sees the success toast before the redirect
         setTimeout(() => {
           router.push("/dashboard"); 
         }, 1500);
@@ -69,9 +70,20 @@ export default function BuyButton({ productId, price }: BuyButtonProps) {
     <button 
       onClick={handlePurchase}
       disabled={loading}
-      className="w-full bg-stone-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-amber-600 disabled:bg-stone-200 transition-all active:scale-95 shadow-lg shadow-stone-200"
+      // Added flex, items-center, justify-center, and gap-3 for the animation layout
+      className="w-full bg-stone-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-amber-600 disabled:bg-stone-200 transition-all active:scale-95 shadow-lg shadow-stone-200 flex items-center justify-center gap-3"
     >
-      {loading ? "Securing Artifact..." : "Add to Collection"}
+      {loading ? (
+        <>
+          {/* Artisan Bouncing Dots Animation */}
+          <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+          <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+          <span className="w-2 h-2 bg-white rounded-full animate-bounce"></span>
+          <span className="ml-2">Securing Artifact...</span>
+        </>
+      ) : (
+        "Add to Collection"
+      )}
     </button>
   );
 }
