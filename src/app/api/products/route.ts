@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "../../../lib/mongodb";
-import Product from "../../../models/Product"; // Ensure you have a Product model created
+import Product from "../../../models/Product";
 import { getServerSession } from "next-auth/next";
+// --- IMPORTANT: Import your auth options to see the 'role' ---
+import { authOptions } from "../auth/[...nextauth]/route"; 
 
-// 1. GET: Fetch all products for the Shop page
+// 1. GET: Fetch all products
 export async function GET() {
   try {
     await connectDB();
@@ -11,20 +13,21 @@ export async function GET() {
     return NextResponse.json(products, { status: 200 });
   } catch (error) {
     console.error("Fetch Products Error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch products" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
   }
 }
 
-// 2. POST: Add a new product (Secure - Admin/Seller only)
+// 2. POST: Add a new product (Secure - Seller only)
 export async function POST(req: Request) {
   try {
-    // Check if the user is logged in (Douglas)
-    const session = await getServerSession();
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Pass authOptions so NextAuth knows how to read the user's role
+    const session = await getServerSession(authOptions);
+    
+    // Check if user is logged in AND is a seller
+    const userRole = (session?.user as { role?: string })?.role;
+
+    if (!session || userRole !== "seller") {
+      return NextResponse.json({ error: "Unauthorized: Artisans only" }, { status: 403 });
     }
 
     await connectDB();
@@ -33,10 +36,7 @@ export async function POST(req: Request) {
 
     // Validation
     if (!name || !price || !category || !image || !description) {
-      return NextResponse.json(
-        { error: "Missing required product fields" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required product fields" }, { status: 400 });
     }
 
     const newProduct = await Product.create({
@@ -45,14 +45,12 @@ export async function POST(req: Request) {
       category,
       image,
       description,
+      sellerId: (session.user as { id?: string }).id, // Optional: Link the product to Douglas
     });
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     console.error("Create Product Error:", error);
-    return NextResponse.json(
-      { error: "Failed to create product" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create product" }, { status: 500 });
   }
 }

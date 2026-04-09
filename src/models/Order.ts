@@ -1,17 +1,16 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
 const OrderSchema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  products: [
-    {
-      product: { type: Schema.Types.ObjectId, ref: "Product" },
-      quantity: { type: Number, default: 1 },
-      price: { type: Number, required: true }
-    }
-  ],
-  totalAmount: { type: Number, required: true },
-  status: { type: String, default: "completed" },
-  createdAt: { type: Date, default: Date.now }
+  customer: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+  quantity: { type: Number, default: 1 },
+  totalPrice: { type: Number, required: true },
+  status: { 
+    type: String, 
+    enum: ["pending", "processing", "shipped", "delivered"], 
+    default: "pending" 
+  },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const Order = models.Order || model("Order", OrderSchema);

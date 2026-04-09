@@ -4,6 +4,12 @@ import Link from "next/link";
 // Update these with your actual image paths once ready
 const CATEGORIES = [
   { 
+  id: "kitchenware", 
+  name: "Kitchenware", 
+  image: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e", 
+  count: 3 
+  },
+  { 
     id: "masks", 
     name: "Traditional Masks", 
     image: "https://tse2.mm.bing.net/th/id/OIP.wPuPRojS0qOA06nVghZ6LQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", 
