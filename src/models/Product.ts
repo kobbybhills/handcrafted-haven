@@ -6,7 +6,7 @@ const ProductSchema = new Schema({
   category: { type: String, required: true },
   image: { type: String, required: true },
   description: { type: String, required: true },
-}, { timestamps: true });
+  createdAt: { type: Date, default: Date.now },
+});
 
-const Product = models.Product || model("Product", ProductSchema);
-export default Product;
+export default models.Product || model("Product", ProductSchema);
