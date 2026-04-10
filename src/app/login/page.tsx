@@ -8,6 +8,7 @@ import Link from "next/link";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // New state for password visibility
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -71,14 +72,23 @@ export default function LoginPage() {
             <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-2">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-amber-600 focus:bg-white transition-all duration-300 font-bold text-gray-900 placeholder-gray-300"
-              placeholder="••••••••"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-amber-600 focus:bg-white transition-all duration-300 font-bold text-gray-900 placeholder-gray-300 pr-16"
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:text-gray-900 transition-colors focus:outline-none"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           {/* Sign In Button */}
