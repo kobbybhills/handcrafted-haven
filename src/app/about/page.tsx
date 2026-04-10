@@ -54,10 +54,10 @@ export default function AboutUsPage() {
     <div className="min-h-screen bg-[#fafaf9] pt-32 pb-20 px-6">
       <div className="max-w-6xl mx-auto">
         <header className="mb-20 border-b border-stone-200 pb-12">
-          <h1 className="text-7xl font-black text-stone-900 uppercase tracking-tighter mb-4 italic">
+          <h1 className="text-4xl md:text-7xl font-black text-stone-900 uppercase tracking-tighter mb-4 italic leading-none">
             The Haven <span className="text-amber-600">Developers</span>
           </h1>
-          <p className="text-stone-400 font-bold uppercase tracking-[0.4em] text-[10px] mb-8">
+          <p className="text-stone-400 font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] text-[10px] mb-8">
             Behind the Handcrafted Vault
           </p>
           <p className="text-xl font-medium text-stone-700 leading-relaxed max-w-3xl bg-white p-8 rounded-3xl border border-stone-100 shadow-sm">
