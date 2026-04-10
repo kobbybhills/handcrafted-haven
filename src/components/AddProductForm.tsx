@@ -129,7 +129,7 @@ export default function AddProductForm({ initialData, onSuccess }: AddProductFor
           <input 
             name="name" 
             defaultValue={initialData?.name || ""} 
-            className="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl font-bold text-gray-900 focus:ring-2 focus:ring-amber-500 outline-none transition-all placeholder-gray-300" 
+            className="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl font-small font-bold text-gray-900 focus:ring-2 focus:ring-amber-500 outline-none transition-all placeholder-gray-300" 
             placeholder="e.g. Midnight Stoneware Vase"
             required 
           />
@@ -143,7 +143,7 @@ export default function AddProductForm({ initialData, onSuccess }: AddProductFor
               type="number" 
               step="0.01"
               defaultValue={initialData?.price || ""} 
-              className="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl font-bold text-gray-900 focus:ring-2 focus:ring-amber-500 outline-none transition-all" 
+              className="w-full px-9 py-3 bg-gray-50 border-none rounded-2xl font-bold text-gray-900 focus:ring-2 focus:ring-amber-500 outline-none transition-all" 
               placeholder="0.00"
               required 
             />
@@ -153,7 +153,7 @@ export default function AddProductForm({ initialData, onSuccess }: AddProductFor
             <input 
               name="category" 
               defaultValue={initialData?.category || ""} 
-              className="w-full px-5 py-3 bg-gray-50 border-none rounded-2xl font-bold text-gray-900 focus:ring-2 focus:ring-amber-500 outline-none transition-all" 
+              className="w-full px-1 py-3 bg-gray-50 border-none rounded-2xl font-bold text-gray-900 focus:ring-2 focus:ring-amber-500 outline-none transition-all" 
               placeholder="e.g. Ceramics"
               required 
             />
@@ -190,7 +190,7 @@ export default function AddProductForm({ initialData, onSuccess }: AddProductFor
         disabled={loading}
         className="w-full bg-gray-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-amber-600 disabled:bg-gray-200 transition-all active:scale-95 shadow-lg shadow-gray-200"
       >
-        {loading ? "Syncing with Vault..." : initialData ? "Confirm Changes" : "Forge New Listing"}
+        {loading ? "Syncing with Vault..." : initialData ? "Confirm Changes" : "Add New Artifact"}
       </button>
     </form>
   );

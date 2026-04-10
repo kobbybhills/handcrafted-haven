@@ -35,7 +35,7 @@ const detailedProfiles = [
     summary: "I handled all the behind-the-scenes logic and built the main data connections for the site. My job was to make sure the database ran fast and that the feedback and review sections worked perfectly for every user.",
     email: "eguchidieberejared@gmail.com",
     image: "/team/jared.jpg",
-    location: "Lagos, Nigeria",
+    location: "Aba, Nigeria",
     countryCode: "NG"
   }
 ];
