@@ -1,7 +1,7 @@
 ## Team 14 - Members
 
-Douglas Justice
-Quadri Kolawole Adisa
+Douglas Justice,
+Quadri Kolawole Adisa,
 Chidiebere Jared Iheke Egu
 
 
