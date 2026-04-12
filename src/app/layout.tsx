@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import AuthProvider from "../components/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from 'nextjs-toploader'; // Optional: adds a sleek loading bar at the top
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -91,7 +92,9 @@ export default function RootLayout({
                 <div>
                   <h3 className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-6">The Workshop Team</h3>
                   <ul className="space-y-2 text-[10px] font-black uppercase tracking-widest text-stone-400">
-                    <li className="hover:text-stone-200 transition-colors">Douglas Justice</li>
+                    <li className="hover:text-amber-500 transition-colors">
+                      <Link href="/about/douglas"> Douglas Justice </Link> 
+                      </li>
                     <li className="hover:text-stone-200 transition-colors">Quadri Kolawole Adisa</li>
                     <li className="hover:text-stone-200 transition-colors">Chidiebere Jared Iheke Egu</li>
                   </ul>
