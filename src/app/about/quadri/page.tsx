@@ -107,16 +107,23 @@ export default function QuadriShowcase() {
           </p>
 
           <div className="flex gap-4 justify-center md:justify-start mt-6">
-            <a href="mailto:your@email.com" className="p-3 bg-white rounded-full shadow hover:text-red-600">
+            <a href="mailto:quadrikolawoleadisa@gmail.com" className="p-3 bg-white rounded-full shadow hover:text-red-600">
               <Mail />
             </a>
-
             <a href="https://github.com/adiquatech" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-black">
               <FaGithub size={22} />
             </a>
-
-            <a href="#" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-blue-600">
+            <a href="www.linkedin.com/in/quadri-kolawole" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-blue-600">
               <FaLinkedin size={22} />
+            </a>
+            <a href="https://wa.me/2348108111008" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-green-600">
+              <FaWhatsapp size={22} />
+            </a>
+            <a href="https://wwww.facebook.com/share/1HxPHtJrgR" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-blue-500">
+              <FaFacebook size={22} />
+            </a>
+            <a href="https://www.instagram.com/adisaquadri42?igsh=cm5iZXQ2MDQ3MHV5" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-pink-600">
+              <FaInstagram size={22} />
             </a>
           </div>
         </motion.div>
