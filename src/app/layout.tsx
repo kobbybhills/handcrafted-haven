@@ -96,9 +96,13 @@ export default function RootLayout({
                   </div>
 
                   <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-500 mb-4">Workshop Team</h3>
-                  <ul className="space-y-2 text-[10px] font-black uppercase tracking-widest text-stone-400">
-                    <li className="hover:text-amber-500 transition-colors"><Link href="/about/douglas">Douglas Justice</Link></li>
-                    <li className="hover:text-stone-200 transition-colors">Quadri Kolawole Adisa</li>
+                  <ul className="space-y-2 text-[10px] font-black uppercase tracking-widest text-stone-400"> 
+                    <li className="hover:text-amber-500 transition-colors">
+                      <Link href="/about/douglas"> Douglas Justice </Link> 
+                    </li>
+                    <li className="hover:text-amber-500 transition-colors">
+                      <Link href="/about/quadri"> Quadri Kolawole Adisa </Link>
+                    </li>
                     <li className="hover:text-stone-200 transition-colors">Chidiebere Jared Iheke Egu</li>
                   </ul>
                 </div>
