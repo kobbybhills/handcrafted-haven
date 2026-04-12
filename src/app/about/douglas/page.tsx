@@ -25,15 +25,26 @@ export default function DouglasShowcase() {
     { name: "Full-Stack Architecture", url: "https://aws.amazon.com/what-is/full-stack" }
   ];
 
+  // Tuned for a better "feel" on scroll
   const fadeIn: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 50 }, 
     visible: { 
       opacity: 1, 
       y: 0, 
       transition: { 
-        duration: 0.8, 
-        ease: "easeOut" 
+        duration: 1, 
+        ease: [0.22, 1, 0.36, 1] 
       } 
+    }
+  };
+
+  const staggerContainer: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
   };
 
@@ -94,11 +105,71 @@ export default function DouglasShowcase() {
 
       <main className="max-w-7xl mx-auto space-y-24 md:space-y-40 relative z-10">
         
-        {/* TECH ARTIFACTS - Compact Row Layout */}
+        {/* THE NARRATIVE */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeIn}
+          className="max-w-4xl mx-auto space-y-32" 
+        >
+          {/* 1. The Journey */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-px bg-amber-600" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-600">The Journey</span>
+            </div>
+            
+            <h2 className="text-4xl md:text-7xl font-black tracking-tighter text-stone-950 uppercase leading-[0.9]">
+              From Hurdles <br /> To <span className="text-amber-600 italic">CODE.</span>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
+              <p className="text-stone-600 font-medium leading-relaxed text-base md:text-lg">
+                Beginning my journey in Software Engineering was a hurdle from day one. Even securing admission was a challenge, but I was determined to make it. That friction didn't slow me down; it fueled a passion for learning and exploring new technologies.
+              </p>
+              <p className="text-stone-500 font-medium leading-relaxed text-sm md:text-base border-l border-stone-200 pl-6 py-2 italic">
+                "I quickly learned that software, much like a complex engine, requires a specific kind of patience and a relentless drive to troubleshoot the invisible."
+              </p>
+            </div>
+          </div>
+
+          {/* 2. UI/UX Philosophy */}
+          <div className="space-y-8 pl-0 md:pl-20 border-t border-stone-100 pt-20">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-px bg-stone-950" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-stone-900">UI/UX & Design Philosophy</span>
+            </div>
+
+            <h2 className="text-4xl md:text-7xl font-black tracking-tighter text-stone-950 uppercase leading-[0.9]">
+              Mechanical <br /> meets <span className="italic">Digital.</span>
+            </h2>
+
+            <div className="max-w-2xl space-y-6 text-stone-600 font-medium leading-relaxed text-base">
+              <p>
+                I have always been obsessed with how things work under the hood. 
+                It doesn’t matter if I’m looking at a line of code or messing with 
+                a motorcycle engine. To me, a good website shouldn’t just look nice. 
+                It should feel like a machine that’s been tuned up just right.
+              </p>
+              <p>
+                When I design things, I think about what I call Mechanical Grit. 
+                It is that exact feeling you get when a bike runs perfectly. 
+                Everything is smooth and reliable. I love the puzzle of taking 
+                a complicated mess and hiding all the confusing parts so you can just 
+                get where you are going. At the end of the day, I am not just moving things 
+                around on a screen. I am building tools that do the hard work for you so you can 
+                just focus on what matters.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+        
+        {/* TECH ARTIFACTS */}
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
           variants={fadeIn}
           className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-y border-stone-200/60 py-12"
         >
@@ -106,10 +177,14 @@ export default function DouglasShowcase() {
             <h2 className="text-2xl font-black uppercase tracking-tighter mb-2 italic">Tech Stack</h2>
             <p className="text-xs font-medium text-stone-500 uppercase tracking-widest">Selected Artifacts</p>
           </div>
-          
-          <nav className="flex flex-wrap gap-2 md:justify-end">
+                    
+          <motion.nav 
+            variants={staggerContainer}
+            className="flex flex-wrap gap-2 md:justify-end"
+          >
             {skills.map((skill) => (
-              <a 
+              <motion.a 
+                variants={fadeIn}
                 key={skill.name} 
                 href={skill.url} 
                 target="_blank" 
@@ -118,16 +193,16 @@ export default function DouglasShowcase() {
               >
                 <span className="font-black uppercase tracking-tight text-[11px] text-stone-900 group-hover:text-amber-600">{skill.name}</span>
                 <ExternalLink size={12} className="opacity-30 group-hover:opacity-100 transition-opacity" />
-              </a>
+              </motion.a>
             ))}
-          </nav>
+          </motion.nav>
         </motion.section>
 
-        {/* PAST BUILDS - Smaller Horizontal Layout */}
+        {/* PAST BUILDS */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.3 }}
           variants={fadeIn}
           className="space-y-6"
         >
@@ -136,12 +211,19 @@ export default function DouglasShowcase() {
             <div className="h-px flex-1 bg-stone-200" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <motion.div 
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             {[
               { title: "Wellness Tracker", desc: "API architecture & secure session management.", icon: Rocket },
               { title: "Handcrafted Haven", desc: "Digital marketplace for master artisans.", icon: BriefcaseBusiness }
             ].map((proj) => (
-              <div key={proj.title} className="group bg-white border border-stone-200 p-6 rounded-2xl flex gap-6 items-center hover:shadow-xl hover:shadow-amber-900/5 transition-all duration-300">
+              <motion.div 
+                variants={fadeIn}
+                key={proj.title} 
+                className="group bg-white border border-stone-200 p-6 rounded-2xl flex gap-6 items-center hover:shadow-xl hover:shadow-amber-900/5 transition-all duration-300"
+              >
                 <div className="shrink-0 w-16 h-16 bg-stone-950 rounded-xl flex items-center justify-center group-hover:bg-amber-600 transition-colors">
                   <proj.icon size={24} className="text-white" />
                 </div>
@@ -152,16 +234,16 @@ export default function DouglasShowcase() {
                   </div>
                   <p className="text-xs text-stone-500 font-medium leading-relaxed">{proj.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.section>
 
         {/* MECHANICAL GRIT */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.3 }}
           variants={fadeIn}
           className="bg-amber-100/40 backdrop-blur-xl rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 border border-amber-200/50 grid grid-cols-1 md:grid-cols-12 gap-10 items-center"
         >
@@ -184,7 +266,7 @@ export default function DouglasShowcase() {
         <footer className="text-center pt-20 border-t border-stone-200/60">
            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-stone-400 mb-10">End of Transmission <br /> Talk to me </p>
            <a href="mailto:kobbybhills462@gmail.com" className="text-3xl sm:text-4xl md:text-7xl font-black tracking-tighter text-stone-950 hover:text-amber-600 transition-all block px-4">
-              LET'S BUILD SOMETHING.
+             LET'S BUILD SOMETHING.
            </a>
         </footer>
       </main>
