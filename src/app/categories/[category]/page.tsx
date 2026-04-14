@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 image={product.image}
                 category={product.category}
                 isLoggedIn={!!session}
-                isCustomer={userRole === "buyer"}
+                isCustomer={userRole === "customer"}
               />
             </div>
           ))}
