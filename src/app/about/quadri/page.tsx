@@ -195,7 +195,7 @@ export default function QuadriShowcase() {
         variants={fadeIn}
         className="max-w-6xl mx-auto mb-24 bg-amber-100 p-10 rounded-3xl"
       >
-        <h2 className="text-3xl font-black mb-4">More Abour Me</h2>
+        <h2 className="text-3xl font-black mb-4">More About Me</h2>
         <p className="text-gray-700 leading-relaxed">
          I see development as more than just writing code. 
          For me, it is about building systems that solve real problems and can grow into something meaningful. 

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /*eslint-disable react/no-unescaped-entities*/
 "use client";
 
@@ -13,6 +14,11 @@ import {
   ExternalLink,
   Phone 
 } from "lucide-react";
+
+import {
+  FaGithub, 
+  FaLinkedin,
+} from "react-icons/fa";
 
 export default function DouglasShowcase() {
   const skills = [
@@ -79,8 +85,15 @@ export default function DouglasShowcase() {
         </div>
         <div className="md:col-span-8 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
-             <span className="text-2xl" role="img" aria-label="Ghana Flag">🇬🇭</span>
-             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-600">Based in Ghana</span>
+             {/* Replaced emoji with a reliable SVG for consistent rendering */}
+             <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-stone-200 shadow-sm">
+                <img 
+                  src="https://flagcdn.com/gh.svg" 
+                  alt="Ghana Flag" 
+                  className="w-5 h-auto rounded-[1px]" 
+                />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-600">Based in Ghana</span>
+             </div>
           </div>
           <h1 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter text-stone-950 leading-[0.85]">
             DOUGLAS <br /> <span className="text-amber-600 italic">JUSTICE</span>
@@ -94,7 +107,10 @@ export default function DouglasShowcase() {
               <Mail size={20} />
             </a>
             <a href="https://www.linkedin.com/in/douglas-justice-6749a42b1" target="_blank" rel="noopener noreferrer" className="p-4 bg-white shadow-sm border border-stone-200 rounded-full text-stone-600 hover:text-blue-600 hover:shadow-md transition-all">
-              <ExternalLink size={20} /> 
+              <FaLinkedin size={20} /> 
+            </a>
+            <a href="https://github.com/kobbybhills" target="_blank" className="p-3 bg-white rounded-full shadow hover:text-black">
+              <FaGithub size={22} />
             </a>
             <a href="tel:+233242368360" className="p-4 bg-white shadow-sm border border-stone-200 rounded-full text-stone-600 hover:text-green-600 hover:shadow-md transition-all">
               <Phone size={20} />
