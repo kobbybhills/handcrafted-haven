@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast"; // Added for better UI
+import { useRouter } from "next/navigation"; // Added to refresh the list
 
 export default function ReviewForm({ productId }: { productId: string }) {
   const { data: session } = useSession();
+  const router = useRouter();
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,14 +24,16 @@ export default function ReviewForm({ productId }: { productId: string }) {
       });
 
       if (res.ok) {
-        alert("Review submitted successfully!");
+        toast.success("Review submitted successfully!"); // Modern notification
         setComment("");
         setRating(5);
+        router.refresh(); // Automatically updates the review list on the page
       } else {
-        alert("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error(err);
+      toast.error("Failed to connect to the server.");
     } finally {
       setIsSubmitting(false);
     }
@@ -52,7 +57,7 @@ export default function ReviewForm({ productId }: { productId: string }) {
           type="number" min="1" max="5" 
           value={rating} 
           onChange={(e) => setRating(Number(e.target.value))}
-          className="w-20 border border-gray-300 rounded-md p-2 focus:ring-amber-500 focus:border-amber-500"
+          className="w-20 border border-gray-300 rounded-md p-2 focus:ring-amber-500 focus:border-amber-500 text-black"
           required
         />
       </div>
@@ -63,7 +68,7 @@ export default function ReviewForm({ productId }: { productId: string }) {
           rows={4}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="w-full border border-gray-300 rounded-md p-3 focus:ring-amber-500 focus:border-amber-500"
+          className="w-full border border-gray-300 rounded-md p-3 focus:ring-amber-500 focus:border-amber-500 text-black"
           placeholder="What makes this item special?"
           required
         />
