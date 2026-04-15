@@ -1,8 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 import { connectDB } from "../../../lib/mongodb";
 import Product from "../../../models/Product";
+import Review from "../../../models/Review"; 
 import { notFound } from "next/navigation";
-import BuyButton from "../../../components/BuyButton"; // Ensure this path matches your folder
+import BuyButton from "../../../components/BuyButton";
+import ReviewForm from "../../../components/ReviewForm"; 
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
+
+// Interfaces to prevent TypeScript "any" errors
+interface ProductDoc {
+  _id: { toString: () => string };
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  category: string;
+}
+
+interface ReviewDocument {
+  _id: { toString: () => string };
+  userName: string;
+  rating: number;
+  comment: string;
+  createdAt: Date;
+}
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -11,62 +33,102 @@ interface PageProps {
 export default async function ProductDetailPage({ params }: PageProps) {
   await connectDB();
   
-  // 1. Await the dynamic params for Next.js 15+ compatibility
+  const session = await getServerSession(authOptions);
+  const userRole = (session?.user as { role?: string })?.role;
   const { id } = await params;
 
-  // 2. Fetch the product from the 'handcrafted_haven' database
-  const product = await Product.findById(id).lean();
+  // Fetch Product with proper typing
+  const product = (await Product.findById(id).lean()) as ProductDoc | null;
 
   if (!product) {
     notFound(); 
   }
 
-  // Convert Mongoose ID to string for the client component
-  const productId = (product as { _id: { toString: () => string } })._id.toString();
+  const productId = product._id.toString();
+
+  // Fetch existing reviews for this specific product
+  const reviews = (await Review.find({ productId }).sort({ createdAt: -1 }).lean()) as ReviewDocument[];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+    <div className="max-w-6xl mx-auto px-4 py-16 mt-10 md:mt-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-20">
         
-        {/* Craft Image Section */}
-        <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 shadow-sm">
+        {/* Image Section */}
+        <div className="rounded-[3rem] overflow-hidden bg-stone-100 border border-stone-200 shadow-inner">
           <img 
-            src={(product as { image: string }).image} 
-            alt={(product as { name: string }).name} 
-            className="w-full h-auto object-cover max-h-150"
+            src={product.image} 
+            alt={product.name} 
+            className="w-full h-auto object-cover"
           />
         </div>
 
-        {/* Craft Content Section */}
+        {/* Content Section */}
         <div className="flex flex-col">
-          <span className="text-sm font-bold text-amber-600 uppercase tracking-widest mb-2">
-            {(product as { category: string }).category}
+          <span className="text-xs font-black text-amber-600 uppercase tracking-[0.3em] mb-4">
+            {product.category}
           </span>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{(product as {name: string}).name}</h1>
-          <p className="text-3xl font-semibold text-gray-900 mb-8">
-            ${(product as { price: number }).price.toFixed(2)}
+          <h1 className="text-5xl font-black text-gray-900 mb-4 tracking-tighter italic leading-none">
+            {product.name}
+          </h1>
+          <p className="text-4xl font-black text-amber-600 mb-8">
+            ${product.price.toFixed(2)}
           </p>
 
-          <div className="border-t border-gray-100 pt-8 mb-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Artisan&apos;s Note</h2>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              {(product as { description: string }).description}
+          <div className="border-t border-stone-200 pt-8 mb-8">
+            <h2 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Artisan&apos;s Note</h2>
+            <p className="text-gray-600 leading-relaxed text-lg font-medium">
+              {product.description}
             </p>
           </div>
 
-          {/* Interaction Section */}
           <div className="space-y-4">
-            {/* The Client-side button that handles the POST to /api/checkout */}
-            <BuyButton productId={productId} price={(product as { price: number }).price} />
-            
-            <button className="w-full border border-gray-200 py-4 rounded-lg font-bold hover:bg-gray-50 transition duration-300 text-gray-700">
+            <BuyButton productId={productId} price={product.price} />
+            <button className="w-full border-2 border-stone-200 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-stone-50 transition-all text-gray-500">
               Save for Later
             </button>
           </div>
+        </div>
+      </div>
 
-          <p className="mt-8 text-xs text-gray-400 italic text-center">
-            This is a unique, handcrafted piece. Variations in texture and color are part of its artisan charm.
-          </p>
+      {/* RATING & REVIEW SECTION */}
+      <div className="border-t border-stone-200 pt-20">
+        <div className="max-w-3xl">
+          <h2 className="text-4xl font-black text-gray-900 mb-2 tracking-tighter italic">Community Reviews</h2>
+          <p className="text-gray-400 font-bold mb-12">Hear what fellow collectors have to say.</p>
+
+          {/* Logic check for the standardized 'customer' role */}
+          {userRole === "customer" ? (
+            <div className="mb-16">
+               <p className="text-xs font-bold text-amber-600 uppercase mb-4 tracking-widest">Share your thoughts</p>
+               <ReviewForm productId={productId} />
+            </div>
+          ) : (
+            <p className="mb-12 p-4 bg-amber-50 text-amber-700 rounded-xl text-[10px] font-black uppercase tracking-widest">
+              {session ? "Only customers can leave reviews." : "Please log in as a customer to leave a review."}
+            </p>
+          )}
+
+          {/* Review List - No more red lines on 'any' */}
+          <div className="space-y-10">
+             {reviews.length > 0 ? (
+               reviews.map((rev: ReviewDocument) => (
+                 <div key={rev._id.toString()} className="border-b border-stone-100 pb-8">
+                   <div className="flex justify-between items-center mb-2">
+                     <h4 className="font-black text-gray-900 uppercase text-[11px] tracking-widest">{rev.userName}</h4>
+                     <div className="text-amber-500 text-sm">
+                       {"★".repeat(rev.rating)}{"☆".repeat(5 - rev.rating)}
+                     </div>
+                   </div>
+                   <p className="text-gray-600 font-medium leading-relaxed">{rev.comment}</p>
+                   <p className="text-[9px] text-gray-400 font-bold mt-3 uppercase tracking-tighter">
+                     Verified Purchase — {new Date(rev.createdAt).toLocaleDateString()}
+                   </p>
+                 </div>
+               ))
+             ) : (
+               <p className="text-stone-400 font-medium italic">No reviews yet. Be the first to verify this craft!</p>
+             )}
+          </div>
         </div>
       </div>
     </div>
