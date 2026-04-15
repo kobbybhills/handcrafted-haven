@@ -9,7 +9,7 @@ export default function SignupPage() {
     name: "", 
     email: "", 
     password: "",
-    role: "buyer" 
+    role: "customer" // CHANGED: Standardized to 'customer'
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -92,7 +92,7 @@ export default function SignupPage() {
             />
           </div>
 
-          {/* ACCOUNT TYPE - STYLED DROPDOWN */}
+          {/* ACCOUNT TYPE */}
           <div className="relative group">
             <label className="block text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2 px-1">
               Account Type
@@ -100,14 +100,14 @@ export default function SignupPage() {
             <div className="relative">
               <select
                 value={formData.role}
-                className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-amber-500 focus:bg-white outline-none appearance-none cursor-pointer font-bold text-gray-700 transition-all hover:border-amber-200"
+                className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-amber-500 focus:bg-white appearance-none cursor-pointer font-bold text-gray-700 transition-all"
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
-                <option value="buyer">Purchaser (I want to buy)</option>
+                {/* CHANGED: value="customer" */}
+                <option value="customer">Purchaser (I want to buy)</option>
                 <option value="seller">Artisan (I want to sell)</option>
               </select>
               
-              {/* Custom Chevron Arrow */}
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400 group-hover:text-amber-600 transition-colors">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" />
@@ -115,18 +115,17 @@ export default function SignupPage() {
               </div>
             </div>
             
-            {/* Dynamic Helper Text */}
             <div className="mt-3 flex items-center gap-2 px-2">
               <div className={`w-1.5 h-1.5 rounded-full transition-colors ${formData.role === 'seller' ? 'bg-amber-500' : 'bg-stone-300'}`}></div>
               <p className="text-[9px] text-gray-400 font-black uppercase tracking-widest">
-                {formData.role === "buyer" 
+                {/* CHANGED: check for "customer" */}
+                {formData.role === "customer" 
                   ? "Access to curated handmade collections" 
                   : "Dashboard to manage your workshop & sales"}
               </p>
             </div>
           </div>
 
-          {/* SUBMIT BUTTON */}
           <button
             disabled={loading}
             type="submit"

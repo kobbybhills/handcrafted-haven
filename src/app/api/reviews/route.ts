@@ -4,13 +4,24 @@ import { connectDB } from "../../../lib/mongodb";
 import Review from "../../../models/Review";
 import { authOptions } from "../auth/[...nextauth]/route";
 
-// --- GET: Fetch all reviews for the Dashboard ---
-export async function GET() {
+// --- GET: Fetch reviews (Filtered by Product or all for Dashboard) ---
+export async function GET(req: Request) {
   try {
+    // We extract the productId from the URL (e.g., /api/reviews?productId=123)
+    const { searchParams } = new URL(req.url);
+    const productId = searchParams.get("productId");
+
     await connectDB();
-    const reviews = await Review.find({}).sort({ createdAt: -1 });
+
+    // If a productId is provided, only fetch reviews for that product.
+    // Otherwise, fetch everything (useful for your admin dashboard).
+    const query = productId ? { productId } : {};
+    
+    const reviews = await Review.find(query).sort({ createdAt: -1 });
+    
     return NextResponse.json(reviews, { status: 200 });
-  } catch {
+  } catch (error) {
+    console.error("Fetch Review Error:", error);
     return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
   }
 }
@@ -19,29 +30,33 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
+    
+    // Only logged-in users can post
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { productId, rating, comment } = await req.json();
 
+    // Validation
     if (!productId || !rating || !comment) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
     await connectDB();
 
+    // Create the review using the standardized 'customer' session data
     const newReview = await Review.create({
       userEmail: session.user?.email,
       userName: session.user?.name,
       productId,
-      rating,
+      rating: Number(rating),
       comment,
     });
 
     return NextResponse.json(newReview, { status: 201 });
-  } catch {
-    console.error("Review Error");
+  } catch (error) {
+    console.error("Post Review Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
