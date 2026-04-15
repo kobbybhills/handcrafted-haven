@@ -3,6 +3,7 @@ import { connectDB } from "../../../lib/mongodb";
 import Product from "../../../models/Product";
 import ProductCard from "../../ui/product-card";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route"; // Added this import
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
@@ -15,7 +16,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   
   await connectDB();
   
-  const session = await getServerSession(); 
+  // Passing authOptions here is critical for the session to see the 'role'
+  const session = await getServerSession(authOptions); 
   const userRole = (session?.user as { role?: string })?.role;
 
   const resolvedParams = await params;
@@ -28,7 +30,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="px-6 py-12 md:p-10 md:pt-32 min-h-screen bg-[#fafaf9]">
       
-      {/* Header Section: Scaled for Mobile */}
+      {/* Header Section */}
       <header className="mb-10 md:mb-16">
         <h1 className="text-4xl md:text-7xl font-black mb-4 capitalize tracking-tighter text-gray-900 italic leading-none">
           {categorySlug} <span className="text-amber-600">Collection</span>
@@ -42,14 +44,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </header>
 
       {filteredProducts.length === 0 ? (
-        /* Empty State: Removed the heavy box on mobile */
         <div className="bg-transparent md:bg-white p-12 md:p-20 rounded-[3rem] border-2 border-dashed border-stone-200 text-center">
           <p className="text-stone-400 text-base md:text-lg font-medium italic">
             The vault is currently empty for &quot;{categorySlug}&quot;.
           </p>
         </div>
       ) : (
-        /* Grid: Standardized gap for better mobile flow */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-10">
           {filteredProducts.map((product: any) => (
             <div key={product._id.toString()}>
@@ -60,7 +60,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 image={product.image}
                 category={product.category}
                 isLoggedIn={!!session}
-                isCustomer={userRole === "customer"}
+                // FIXED: Now matches your signup/DB role
+                isCustomer={userRole === "customer"} 
               />
             </div>
           ))}

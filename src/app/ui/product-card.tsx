@@ -28,22 +28,22 @@ export default function ProductCard({
   const handleBuyClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // 1. Check Login Status - Replaces old browser alert
+    // 1. Check Login Status
     if (!isLoggedIn) {
       toast.error("Workshop Access Required", {
         duration: 4000,
         style: {
           borderRadius: '1.5rem',
-          background: '#1c1917', // stone-900
+          background: '#1c1917',
           color: '#fff',
           padding: '16px 24px',
           fontWeight: '900',
           fontSize: '12px',
           textTransform: 'uppercase',
-          border: '1px solid #78350f', // amber-900
+          border: '1px solid #78350f',
         },
         iconTheme: {
-          primary: '#d97706', // amber-600
+          primary: '#d97706',
           secondary: '#fff',
         },
       });
@@ -52,9 +52,9 @@ export default function ProductCard({
       return;
     }
 
-    // 2. Check Role (Only 'buyer' can purchase) - Replaces old browser alert
+    // 2. Check Role - Updated text to "Customer" to match your code logic
     if (!isCustomer) {
-      toast.error("Buyer Account Required", {
+      toast.error("Customer Account Required", {
         style: {
           borderRadius: '1.5rem',
           background: '#1c1917',
@@ -69,13 +69,12 @@ export default function ProductCard({
       return;
     }
 
-    // 3. Successful Check - Navigate to the unique product page
+    // 3. Navigate to the unique product page
     router.push(`/shop/${id}`);
   };
 
   return (
     <div className="group bg-white p-6 rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-50 flex flex-col h-full">
-      {/* Image Container with Artisan stone-100 background */}
       <div className="relative h-72 w-full overflow-hidden rounded-4xl mb-6 bg-stone-100">
         <Image 
           src={image} 
@@ -85,7 +84,6 @@ export default function ProductCard({
         />
       </div>
 
-      {/* Content Section */}
       <div className="flex-1 text-left px-2">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-black text-2xl text-gray-900 tracking-tight leading-tight">
@@ -107,7 +105,6 @@ export default function ProductCard({
         </div>
       </div>
 
-      {/* Action Button - Updated with scale effects */}
       <div className="mt-auto pt-4">
         <button 
           onClick={handleBuyClick}
